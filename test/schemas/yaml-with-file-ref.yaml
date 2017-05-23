@@ -1,0 +1,8 @@
+---
+  description: User
+  title: User
+  type: object
+
+  properties:
+    subschema:
+      $ref: subschema.yaml

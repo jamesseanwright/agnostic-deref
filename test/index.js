@@ -1,3 +1,6 @@
+const fs = require('fs');
+const yaml = require('js-yaml');
+
 describe('json-schema-deref-sync', function () {
   var expect = require('chai').expect;
   var deref = require('../dist');
@@ -346,6 +349,20 @@ describe('json-schema-deref-sync', function () {
       var schema = deref(input, { baseFolder: './test/schemas' });
       expect(schema).to.be.ok;
       expect(schema).to.deep.equal(expected);
+    });
+
+    it('should support alternative file formats when a parser option is provided', function () {
+      const rawSchema = fs.readFileSync('test/schemas/yaml-with-file-ref.yaml');
+      const rawSubSchema = fs.readFileSync('test/schemas/subschema.yaml');
+      const schema = yaml.safeLoad(rawSchema);
+      const subSchema = yaml.safeLoad(rawSubSchema);
+
+      const dereffedSchema = deref(schema, {
+        baseFolder: './test/schemas',
+        parser: yaml.safeLoad.bind(yaml)
+      });
+
+      expect(dereffedSchema.properties.subschema).to.deep.equal(subSchema);
     });
   });
 });

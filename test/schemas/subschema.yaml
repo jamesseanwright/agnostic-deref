@@ -1,0 +1,7 @@
+---
+  description: "Some subschema"
+  properties:
+    foo:
+      type: string
+    bar:
+      type: object
