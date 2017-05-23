@@ -1,12 +1,11 @@
-# json-schema-deref-sync
+# agnostic-deref
 
-Dereference JSON pointers in a JSON schemas with their true resolved values.
-Basically a lighter, synchronous version of [json-schema-deref](https://github.com/bojand/json-schema-deref) but omits web references and
-custom loaders.
+Dereference JSON pointers in a JSON schemas with their true resolved values. A custom parsing function can be specified to support dereferencing of any file format.
+This has been forked from [json-schema-deref](https://github.com/bojand/json-schema-deref).
 
 ## Installation
 
-`npm install json-schema-deref-sync`
+`npm install agnostic-deref`
 
 ## Overview
 
@@ -91,8 +90,8 @@ var fullSchema = deref(myschema);
 ## deref(schema, options) ⇒ <code>Object</code> &#124; <code>Error</code>
 Derefs <code>$ref</code>'s in JSON Schema to actual resolved values. Supports local, and file refs.
 
-**Kind**: global function  
-**Returns**: <code>Object</code> &#124; <code>Error</code> - the deref schema oran instance of <code>Error</code> if error.  
+**Kind**: global function
+**Returns**: <code>Object</code> &#124; <code>Error</code> - the deref schema oran instance of <code>Error</code> if error.
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -100,4 +99,5 @@ Derefs <code>$ref</code>'s in JSON Schema to actual resolved values. Supports lo
 | options | <code>Object</code> | options |
 | options.baseFolder | <code>String</code> | the base folder to get relative path files from. Default is <code>process.cwd()</code> |
 | options.failOnMissing | <code>Boolean</code> | By default missing / unresolved refs will be left as is with their ref value intact.                                        If set to <code>true</code> we will error out on first missing ref that we cannot                                        resolve. Default: <code>false</code>. |
+| options.parser | `Function` | The function invoked to parse the contents of files located at each `$ref`. This defaults to `JSON.parse`. |
 
