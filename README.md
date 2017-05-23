@@ -1,4 +1,4 @@
-# agnostic-deref
+# Agnostic Dereference
 
 Dereference JSON pointers in a JSON schemas with their true resolved values. A custom parsing function can be specified to support dereferencing of any file format.
 This has been forked from [json-schema-deref](https://github.com/bojand/json-schema-deref).
@@ -77,10 +77,43 @@ This utility lets you do that:
 
 
 ```js
-var deref = require('json-schema-deref-sync');
+var deref = require('agnostic-deref');
 var myschema = require('schema.json');
 
 var fullSchema = deref(myschema);
+```
+
+Agnostic Deference also allows refs of any format to be parsed via the `options.parser` function. This is useful if you specify your schemas in a non-JSON format, such as YAML:
+
+```yaml
+# schema.yaml
+---
+  description: User
+  title: User
+  type: object
+
+  properties:
+    subschema:
+      $ref: subschema.yaml
+
+# subschema.yaml
+---
+  description: "Some subschema"
+  properties:
+    foo:
+      type: string
+    bar:
+      type: object
+```
+
+```js
+const yaml = require('js-yaml');
+const deref = require('agnostic-deref');
+const fs = require('fs');
+
+const schema = yaml.safeLoad(fs.readFileSync('schema.yaml'));
+
+const fullSchema = deref(schema, { parser: yaml.safeLoad });
 ```
 
 ## API Reference
