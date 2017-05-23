@@ -359,7 +359,7 @@ describe('json-schema-deref-sync', function () {
 
       const dereffedSchema = deref(schema, {
         baseFolder: './test/schemas',
-        parser: yaml.safeLoad.bind(yaml)
+        parser: yaml.safeLoad
       });
 
       expect(dereffedSchema.properties.subschema).to.deep.equal(subSchema);
